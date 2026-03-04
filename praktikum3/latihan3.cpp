@@ -1,69 +1,70 @@
 #include <iostream>
-#include <string>
+#include <iomanip>
 
-// Mendefinisikan Class sesuai spesifikasi tugas
 class RekeningBank {
 private:
-    // Atribut diset private agar saldo tidak bisa diubah langsung dari luar (Enkapsulasi)
     double saldo;
 
 public:
-    // Constructor: Otomatis jalan pas objek dibuat buat isi saldo awal
+    // Constructor tetap ada untuk inisialisasi awal
     RekeningBank(double saldoAwal) {
         if (saldoAwal < 0) {
-            saldo = 0; // Proteksi kalau input awal minus
+            saldo = 0;
         } else {
             saldo = saldoAwal;
         }
-        std::cout << "[Sistem] Akun dibuat. Saldo awal: " << saldo << std::endl;
+        std::cout << "[Sistem] Rekening berhasil diproses." << std::endl;
     }
 
-    // Method untuk menambah saldo
     void setor(double jumlah) {
         if (jumlah > 0) {
             saldo += jumlah;
-            std::cout << "Setor tunai: " << jumlah << " | Total saldo: " << saldo << std::endl;
+            std::cout << ">> Setor Tunai Berhasil. Saldo sekarang: " << saldo << std::endl;
         } else {
-            std::cout << "Jumlah setor tidak valid!" << std::endl;
+            std::cout << ">> Jumlah tidak valid!" << std::endl;
         }
     }
 
-    // Method untuk menarik saldo dengan logika pengecekan
     void tarik(double jumlah) {
-        std::cout << "Mencoba tarik: " << jumlah << "..." << std::endl;
+        std::cout << "Memproses penarikan: " << jumlah << "..." << std::endl;
         
-        // Logika kondisi if-else sesuai perintah tugas
+        // Logika if-else sesuai perintah tugas
         if (jumlah > saldo) {
             std::cout << ">> Penarikan Gagal! Saldo tidak mencukupi." << std::endl;
-        } else if (jumlah <= 0) {
-            std::cout << ">> Penarikan Gagal! Nominal tidak valid." << std::endl;
         } else {
             saldo -= jumlah;
             std::cout << ">> Berhasil! Sisa saldo saat ini: " << saldo << std::endl;
         }
     }
 
-    // Method tambahan buat cek saldo terakhir
     void cekSaldo() {
-        std::cout << "Saldo saat ini: " << saldo << std::endl;
+        std::cout << "\n=== STATUS REKENING ===" << std::endl;
+        std::cout << "Total Saldo Akhir: " << saldo << std::endl;
+        std::cout << "=======================" << std::endl;
     }
 };
 
 int main() {
-    // 1. Inisialisasi objek dengan saldo awal 500.0
-    RekeningBank tabunganku(500.0);
+    double awal, nSetor, nTarik;
 
-    // 2. Coba setor uang
-    tabunganku.setor(200.0);
+    std::cout << "--- Aplikasi Bank Mini ---" << std::endl;
+    
+    // Input saldo awal untuk dikirim ke Constructor
+    std::cout << "Masukkan saldo awal: ";
+    std::cin >> awal;
+    RekeningBank tabunganku(awal);
 
-    // 3. Tes logika penarikan yang melebihi saldo (Harus gagal)
-    tabunganku.tarik(1000.0);
+    // Input untuk method setor
+    std::cout << "\nMasukkan jumlah setoran: ";
+    std::cin >> nSetor;
+    tabunganku.setor(nSetor);
 
-    // 4. Tes penarikan yang valid
-    tabunganku.tarik(300.5);
+    // Input untuk method tarik
+    std::cout << "Masukkan jumlah penarikan: ";
+    std::cin >> nTarik;
+    tabunganku.tarik(nTarik);
 
-    // 5. Cek hasil akhir
-    std::cout << "\n--- Laporan Akhir ---" << std::endl;
+    // Tampilkan hasil akhir
     tabunganku.cekSaldo();
 
     return 0;
